@@ -1,0 +1,288 @@
+{
+  "dataset": "WA_Fn-UseC_-Telco-Customer-Churn.csv",
+  "n_customers": 7043,
+  "churn_rate": 26.5,
+  "comparison": [
+    {
+      "Model": "Gradient Boosting",
+      "Accuracy": 0.8032,
+      "Precision": 0.6617,
+      "Recall": 0.5291,
+      "F1": 0.5878,
+      "ROC-AUC": 0.8481,
+      "ROC-AUC std": 0.0127
+    },
+    {
+      "Model": "Logistic Regression",
+      "Accuracy": 0.8025,
+      "Precision": 0.6538,
+      "Recall": 0.5438,
+      "F1": 0.5931,
+      "ROC-AUC": 0.8462,
+      "ROC-AUC std": 0.0126
+    },
+    {
+      "Model": "Decision Tree",
+      "Accuracy": 0.7914,
+      "Precision": 0.6345,
+      "Recall": 0.513,
+      "F1": 0.5649,
+      "ROC-AUC": 0.8289,
+      "ROC-AUC std": 0.011
+    },
+    {
+      "Model": "Random Forest",
+      "Accuracy": 0.7884,
+      "Precision": 0.6339,
+      "Recall": 0.4823,
+      "F1": 0.5473,
+      "ROC-AUC": 0.8214,
+      "ROC-AUC std": 0.0119
+    }
+  ],
+  "winner": {
+    "name": "Gradient Boosting",
+    "reason": "Gradient Boosting ROC-AUC me sabse aage hai (0.848 +/- 0.013); dusre number pe Logistic Regression (0.846). ROC-AUC isliye chuna kyunki churn imbalanced hai (sirf 27% churn): 'koi nahi jayega' bolne wala model bhi 73% accuracy le leta hai, isliye sirf accuracy pe bharosa nahi kar sakte. Sabka recall kam hai - ye Part 2 me fix hoga."
+  },
+  "results": [
+    {
+      "name": "Dumb baseline (no one churns)",
+      "accuracy": 0.7345635202271115,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5,
+      "tp": 0,
+      "fp": 0,
+      "fn": 374,
+      "tn": 1035
+    },
+    {
+      "name": "Before: Logistic Regression",
+      "accuracy": 0.8055358410220014,
+      "precision": 0.6572327044025157,
+      "recall": 0.5588235294117647,
+      "f1": 0.6040462427745664,
+      "roc_auc": 0.8419566509080574,
+      "tp": 209,
+      "fp": 109,
+      "fn": 165,
+      "tn": 926
+    },
+    {
+      "name": "class_weight='balanced'",
+      "accuracy": 0.7381121362668559,
+      "precision": 0.504302925989673,
+      "recall": 0.7834224598930482,
+      "f1": 0.6136125654450262,
+      "roc_auc": 0.8416337285902502,
+      "tp": 293,
+      "fp": 288,
+      "fn": 81,
+      "tn": 747
+    },
+    {
+      "name": "Tuned LR (GridSearchCV)",
+      "accuracy": 0.7281760113555713,
+      "precision": 0.49261083743842365,
+      "recall": 0.8021390374331551,
+      "f1": 0.6103763987792472,
+      "roc_auc": 0.840311038776512,
+      "tp": 300,
+      "fp": 309,
+      "fn": 74,
+      "tn": 726
+    },
+    {
+      "name": "Tuned GB (balanced + GridSearch)",
+      "accuracy": 0.7437899219304471,
+      "precision": 0.5111492281303602,
+      "recall": 0.7967914438502673,
+      "f1": 0.6227795193312434,
+      "roc_auc": 0.843934227182309,
+      "tp": 298,
+      "fp": 285,
+      "fn": 76,
+      "tn": 750
+    }
+  ],
+  "best_lr_params": {
+    "C": "100",
+    "class_weight": "{0: 1, 1: 3}"
+  },
+  "best_gb_params": {
+    "learning_rate": 0.05,
+    "max_depth": 2,
+    "n_estimators": 100
+  },
+  "top_drivers": [
+    {
+      "column": "MonthlyCharges",
+      "coef": -2.497
+    },
+    {
+      "column": "InternetService_Fiber optic",
+      "coef": 1.579
+    },
+    {
+      "column": "InternetService_DSL",
+      "coef": -1.252
+    },
+    {
+      "column": "tenure",
+      "coef": -1.182
+    },
+    {
+      "column": "Contract_Two year",
+      "coef": -0.835
+    },
+    {
+      "column": "StreamingMovies_Yes",
+      "coef": 0.697
+    },
+    {
+      "column": "StreamingTV_Yes",
+      "coef": 0.683
+    },
+    {
+      "column": "OnlineBackup_No internet service",
+      "coef": -0.65
+    },
+    {
+      "column": "StreamingTV_No internet service",
+      "coef": -0.65
+    },
+    {
+      "column": "DeviceProtection_No internet service",
+      "coef": -0.65
+    },
+    {
+      "column": "InternetService_No",
+      "coef": -0.65
+    },
+    {
+      "column": "TechSupport_No internet service",
+      "coef": -0.65
+    }
+  ],
+  "segments": {
+    "Contract": [
+      {
+        "group": "Month-to-month",
+        "churn_rate": 42.7,
+        "customers": 3875
+      },
+      {
+        "group": "One year",
+        "churn_rate": 11.3,
+        "customers": 1473
+      },
+      {
+        "group": "Two year",
+        "churn_rate": 2.8,
+        "customers": 1695
+      }
+    ],
+    "Tenure": [
+      {
+        "group": "0-12 months",
+        "churn_rate": 47.4,
+        "customers": 2186
+      },
+      {
+        "group": "13-24 months",
+        "churn_rate": 28.7,
+        "customers": 1024
+      },
+      {
+        "group": "25-48 months",
+        "churn_rate": 20.4,
+        "customers": 1594
+      },
+      {
+        "group": "49+ months",
+        "churn_rate": 9.5,
+        "customers": 2239
+      }
+    ],
+    "Internet service": [
+      {
+        "group": "DSL",
+        "churn_rate": 19.0,
+        "customers": 2421
+      },
+      {
+        "group": "Fiber optic",
+        "churn_rate": 41.9,
+        "customers": 3096
+      },
+      {
+        "group": "No",
+        "churn_rate": 7.4,
+        "customers": 1526
+      }
+    ],
+    "Payment method": [
+      {
+        "group": "Bank transfer (automatic)",
+        "churn_rate": 16.7,
+        "customers": 1544
+      },
+      {
+        "group": "Credit card (automatic)",
+        "churn_rate": 15.2,
+        "customers": 1522
+      },
+      {
+        "group": "Electronic check",
+        "churn_rate": 45.3,
+        "customers": 2365
+      },
+      {
+        "group": "Mailed check",
+        "churn_rate": 19.1,
+        "customers": 1612
+      }
+    ],
+    "Tech support": [
+      {
+        "group": "No",
+        "churn_rate": 41.6,
+        "customers": 3473
+      },
+      {
+        "group": "No internet service",
+        "churn_rate": 7.4,
+        "customers": 1526
+      },
+      {
+        "group": "Yes",
+        "churn_rate": 15.2,
+        "customers": 2044
+      }
+    ],
+    "Senior citizen": [
+      {
+        "group": "No",
+        "churn_rate": 23.6,
+        "customers": 5901
+      },
+      {
+        "group": "Yes",
+        "churn_rate": 41.7,
+        "customers": 1142
+      }
+    ]
+  },
+  "plain_english": {
+    "points": [
+      "Contract: 'Month-to-month' wale customers ka churn rate 42.7% hai, jabki 'Two year' wale ka sirf 2.8%.",
+      "Tenure: '0-12 months' wale customers ka churn rate 47.4% hai, jabki '49+ months' wale ka sirf 9.5%.",
+      "Internet service: 'Fiber optic' wale customers ka churn rate 41.9% hai, jabki 'No' wale ka sirf 7.4%.",
+      "Payment method: 'Electronic check' wale customers ka churn rate 45.3% hai, jabki 'Credit card (automatic)' wale ka sirf 15.2%.",
+      "Tech support: 'No' wale customers ka churn rate 41.6% hai, jabki 'No internet service' wale ka sirf 7.4%.",
+      "Senior citizen: 'Yes' wale customers ka churn rate 41.7% hai, jabki 'No' wale ka sirf 23.6%."
+    ],
+    "summary": "Sabse risky customer profile (data ke hisaab se): Contract = Month-to-month, Tenure = 0-12 months, Internet service = Fiber optic, Payment method = Electronic check, Tech support = No."
+  }
+}

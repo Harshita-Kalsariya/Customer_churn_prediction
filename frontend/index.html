@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Churn Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<div class="wrap">
+  <header>
+    <div class="logo">📉</div>
+    <h1>Customer <span>Churn</span> Predictor</h1>
+  </header>
+
+  <div class="grid">
+    <div class="card form">
+      <h2>👤 Customer Details</h2>
+
+      <div class="row">
+        <div class="field"><label>⏳ Tenure (months)</label>
+          <input id="tenure" type="number" value="5" min="0"></div>
+        <div class="field"><label>💵 Monthly Charges ($)</label>
+          <input id="MonthlyCharges" type="number" value="85" min="0"></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label>📄 Contract</label>
+          <select id="Contract"><option>Month-to-month</option><option>One year</option><option>Two year</option></select></div>
+        <div class="field"><label>🌐 Internet Service</label>
+          <select id="InternetService"><option>Fiber optic</option><option>DSL</option><option>No</option></select></div>
+      </div>
+
+      <div class="field"><label>💳 Payment Method</label>
+        <select id="PaymentMethod"><option>Electronic check</option><option>Mailed check</option><option>Bank transfer (automatic)</option><option>Credit card (automatic)</option></select></div>
+
+      <div class="row">
+        <div class="field"><label>🔒 Online Security</label>
+          <select id="OnlineSecurity"><option>No</option><option>Yes</option><option>No internet service</option></select></div>
+        <div class="field"><label>🛠️ Tech Support</label>
+          <select id="TechSupport"><option>No</option><option>Yes</option><option>No internet service</option></select></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label>🧾 Paperless Billing</label>
+          <select id="PaperlessBilling"><option>Yes</option><option>No</option></select></div>
+        <div class="field"><label>🧓 Senior Citizen</label>
+          <select id="SeniorCitizen"><option value="0">No</option><option value="1">Yes</option></select></div>
+      </div>
+
+      <button id="go"><span>Predict Churn</span> 🚀</button>
+    </div>
+
+    <div class="card result">
+      <h2>🎯 Prediction</h2>
+
+      <div class="gauge-wrap">
+        <div class="ring"></div>
+        <div class="gauge" id="gauge">
+          <div class="inner">
+            <b id="pct">--</b>
+            <small>churn chance</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="pill" id="risk">⏳ Waiting for prediction</div>
+
+      <div class="meter">
+        <div class="bar"><i id="marker"></i></div>
+        <div class="labels"><em>Low</em><em>Medium</em><em>High</em></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>P3 · Customer Churn · AI &amp; ML Project</footer>
+</div>
+
+<script>
+const ids=["tenure","MonthlyCharges","Contract","InternetService","PaymentMethod","OnlineSecurity","TechSupport","PaperlessBilling","SeniorCitizen"];
+const $=i=>document.getElementById(i);
+
+const COLOR={Low:"#2ecc71",Medium:"#f5b83d",High:"#ff4d6d"};
+const ICON={Low:"✅",Medium:"⚠️",High:"🔥"};
+
+function countUp(target){
+  let cur=0;const step=Math.max(1,Math.round(target/30));
+  const t=setInterval(()=>{
+    cur=Math.min(target,cur+step);
+    $("pct").textContent=cur+"%";
+    $("gauge").style.setProperty("--p",cur);
+    if(cur>=target)clearInterval(t);
+  },20);
+}
+
+$("go").onclick=async()=>{
+  const btn=$("go");btn.classList.add("loading");
+  const body={};ids.forEach(i=>body[i]=$(i).value);
+  try{
+    const r=await fetch("/api/predict",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const d=await r.json();
+    const p=Math.round(d.probability*100);
+    const col=COLOR[d.risk];
+
+    $("gauge").style.setProperty("--c",col);
+    $("gauge").style.boxShadow=`0 0 60px ${col}66`;
+    $("pct").style.color=col;
+
+    const pill=$("risk");
+    pill.textContent=`${ICON[d.risk]} ${d.risk} Churn Risk`;
+    pill.style.color=col;
+    pill.style.background=col+"22";
+    pill.style.borderColor=col+"88";
+
+    $("marker").style.left=p+"%";
+    $("marker").style.borderColor=col;
+    countUp(p);
+  }catch(e){
+    const pill=$("risk");
+    pill.textContent="⚠️ Backend chalu karo (python backend/app.py)";
+    pill.style.color="#ff4d6d";
+    pill.style.background="#ff4d6d22";
+    pill.style.borderColor="#ff4d6d88";
+  }
+  btn.classList.remove("loading");
+};
+</script>
+</body>
+</html>
