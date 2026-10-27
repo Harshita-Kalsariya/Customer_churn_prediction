@@ -20,7 +20,10 @@ NUM = ["tenure", "MonthlyCharges", "TotalCharges", "SeniorCitizen"]
 CAT = ["Contract", "InternetService", "PaymentMethod", "OnlineSecurity",
        "TechSupport", "PaperlessBilling"]
 
-
+print("ROOT:", ROOT)
+print("DATA:", DATA)
+print("DATA EXISTS:", DATA.exists())
+print("DATASETS EXISTS:", DATA.parent.exists())
 def train():
     df = pd.read_csv(DATA)
     df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce").fillna(0)
