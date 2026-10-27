@@ -15,9 +15,9 @@ FRONTEND = ROOT / "frontend"
 filename = "WA_Fn-UseC_-Telco-Customer-Churn.csv"
 
 possible_paths = [
-    ROOT / "datasets" / filename,
-    ROOT / "backend" / "datasets" / filename,
-    Path(__file__).resolve().parent / "datasets" / filename,
+    ROOT / "Datasets" / filename,
+    ROOT / "backend" / "Datasets" / filename,
+    Path(__file__).resolve().parent / "Datasets" / filename,
 ]
 
 DATA = next((p for p in possible_paths if p.is_file()), possible_paths[0])
