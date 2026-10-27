@@ -37,3 +37,12 @@ python backend/app.py                            # web app -> http://127.0.0.1:5
 
 ## Key Finding
 Month-to-month contract wale, kam tenure wale, fiber optic aur high monthly bill wale customers sabse zyada churn karte hain. Long-term contract aur tech support wale customers rukte hain.
+
+
+![Project Screenshot](image.png)
+
+![Project Screenshot](image-1.png)
+
+![Project Screenshot](image-2.png)
+
+
