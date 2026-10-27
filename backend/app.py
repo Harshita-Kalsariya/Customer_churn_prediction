@@ -10,9 +10,21 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "datasets" / "WA_Fn-UseC_-Telco-Customer-Churn.csv"
 FRONTEND = ROOT / "frontend"
 
+filename = "WA_Fn-UseC_-Telco-Customer-Churn.csv"
+
+possible_paths = [
+    ROOT / "datasets" / filename,
+    ROOT / "backend" / "datasets" / filename,
+    Path(__file__).resolve().parent / "datasets" / filename,
+]
+
+DATA = next((p for p in possible_paths if p.is_file()), possible_paths[0])
+
+print("Project root:", ROOT)
+print("Dataset path:", DATA)
+print("Dataset exists:", DATA.is_file())
 app = Flask(__name__, static_folder=None)
 CORS(app)
 
