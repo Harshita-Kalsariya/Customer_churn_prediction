@@ -1,6 +1,7 @@
 # 📉 P3 – Customer Churn (Compare Models + Imbalance & Tuning)
 
 Customer churn deployment :->  https://customer-churn-prediction-rwtq.onrender.com
+
 Telco customers ka churn predict karne wala AI/ML project. Part 1 me 4 models ko cross-validation se compare kiya, Part 2 me imbalance handle karke aur GridSearchCV se tuning ki.
 
 ## Folder Structure
